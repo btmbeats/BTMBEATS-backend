@@ -5,7 +5,7 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return Promise.all([
       knex('users').insert([{
-        user_id: 1,
+        id: 1,
       	first_name: 'Ian',
         last_name: 'Burnside',
         date_of_birth: '',
@@ -23,7 +23,7 @@ exports.seed = function(knex, Promise) {
         created_at: '2018-02-05T14:26:16.000Z',
         updated_at: '2018-02-05T14:26:16.000Z'
       },{
-        user_id:2,
+        id: 2,
         first_name:'Michael',
         last_name: 'Shields',
         date_of_birth: '04/30/1988',
