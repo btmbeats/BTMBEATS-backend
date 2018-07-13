@@ -1,42 +1,94 @@
-var express = require('express')
-var router = express.Router()
+const express = require('express')
+const router = express.Router()
 const knex = require('../knex')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-// READ ALL records for this table
-router.get('/', (req, res, next) => {
+const checkForUser = (req, res, next) => {
+  const {id} = req.params
+  knex('users').where('id', id).then(user => {
+    if (user.length < 1) {
+      res.status(400).send(`No user found with id ${id}`)
+    } else
+      next()
+  })
+}
+
+const checkForExisitingEmail = (req, res, next) => {
+  const { email_address } = req.body
   knex('users')
-    .then((rows) => {
-      res.json(rows)
+    .where('email_address', email_address)
+    .then(user => {
+      if (user.length === 1) {
+        res.status(400).send('Email address already registered')
+      }
+      else next()
     })
-    .catch((err) => {
+}
+
+const getUsers = (req, res, next) => {
+  const {id} = req.params
+
+  if (id) {
+    knex('users').where('id', id).select('id', 'first_name', 'last_name', 'email_address', 'avatar', 'bio').first().then(user => {
+      res.status(200).send(user)
+    }).catch(err => {
       next(err)
     })
-})
-// READ ONE record for this table
-router.get('/:id', (req, res, next) => {
-  knex('users')
-    .where('id',req.params.id)
-    .then((rows) => {
-      res.json(rows)
-    })
-    .catch((err) => {
+  } else {
+    knex('users').select('id', 'first_name', 'last_name', 'email_address', 'avatar', 'bio').then(users => {
+      res.status(200).send(users)
+    }).catch(err => {
       next(err)
     })
-})
-// CREATE ONE record for this table
-router.post('/', (req, res, next) => {
-  res.send('CREATED RECORD')
-})
-// UPDATE ONE record for this table
-router.put('/:id', (req, res, next) => {
-  res.send('UPDATED RECORD')
-})
-// DELETE ONE record for this table
-router.delete('/:id', (req, res, next) => {
-  res.send('DELETED RECORD')
-})
+  }
+}
 
+const postUser = (req, res, next) => {
 
-module.exports = router;
+  const {
+    first_name,
+    last_name,
+    email_address,
+    password,
+    avatar,
+    bio
+  } = req.body
+  console.log('Hello, my name is: ', req.body)
+  bcrypt.hash(password, 10, (err, hashed_password) => {
+    const newUser = {
+      'first_name': first_name,
+      'last_name': last_name,
+      'email_address': email_address,
+      'hashed_password': hashed_password,
+      'avatar': avatar,
+      'bio': bio
+    }
+    // console.log('buenos dias: ', newUser)
+    knex('users').insert(newUser).returning([
+      'id',
+      'first_name',
+      'last_name',
+      'email_address',
+      'avatar',
+      'bio'
+    ]).then(user => {
+      console.log('Hello, my username is: ', user)
+      const token = jwt.sign({
+        'id': user[0].id,
+        'first_name': user[0].first_name,
+        'last_name': user[0].last_name,
+        'avatar': user[0].avatar,
+        'bio': user[0].bio
+      }, process.env.JWT_KEY)
+      res.cookie(`token=${token}; Path=\/;.HttpOnly`)
+      res.status(200).send(user)
+    }).catch(err => {
+      next(err)
+})})}
+
+router.get('/', getUsers)
+router.get('/:id', checkForUser, getUsers)
+router.post('/', checkForExisitingEmail, postUser)
+
+module.exports = router
