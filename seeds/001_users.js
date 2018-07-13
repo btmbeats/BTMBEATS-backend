@@ -8,7 +8,7 @@ exports.seed = function(knex, Promise) {
         id: 1,
       	first_name: 'Ian',
         last_name: 'Burnside',
-        date_of_birth: '',
+        date_of_birth: '10/27/1989',
         email_address: '',
         hashed_password: '',
         user_name: 'Burnsidion',
