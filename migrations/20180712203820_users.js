@@ -11,7 +11,6 @@ exports.up = function(knex, Promise) {
     table.string('location', 255).notNullable('').default('')
     table.string('avatar', 255).defaultTo('')
     table.string('bio', 255).defaultTo('')
-    table.string('following', 255).defaultTo('')
     table.string('soundcloud', 255).defaultTo('')
     table.string('google', 255).defaultTo('')
     table.string('facebook', 255).defaultTo('')
