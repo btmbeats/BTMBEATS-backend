@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
     table.increments()
     table.string('first_name', 255).notNullable().defaultTo('')
     table.string('last_name', 255).notNullable().defaultTo('')
-    table.string('date_of_birth', 255).notNullable().defaultTo('')
+    table.date('date_of_birth').notNullable().defaultTo(knex.raw('now()'))
     table.string('email_address', 255).notNullable().defaultTo('')
     table.specificType('hashed_password', "char(60)").notNullable()
     table.string('artist_name', 255).notNullable('').defaultTo('')
