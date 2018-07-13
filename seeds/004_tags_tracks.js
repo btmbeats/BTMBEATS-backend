@@ -16,6 +16,11 @@ exports.seed = function(knex, Promise) {
           created_at: '2018-02-05T14:26:16.000Z',
           updated_at: '2018-02-05T14:26:16.000Z'
         }
-      ])])
+      ])
+    ])
+    .then(function() {
+        // Moves id column (PK) auto-incrementer to correct value after inserts
+        return knex.raw("SELECT setval('tags_tracks_id_seq', (SELECT MAX(id) FROM tags_tracks))")
+      })
   })
 }

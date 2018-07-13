@@ -9,7 +9,7 @@ exports.seed = function(knex, Promise) {
       	first_name: 'Ian',
         last_name: 'Burnside',
         date_of_birth: '1989-10-27',
-        email_address: '',
+        email_address: 'fuckmylife',
         hashed_password: '',
         artist_name: 'Burnsidion',
         location: 'Boulder',
@@ -27,7 +27,7 @@ exports.seed = function(knex, Promise) {
         last_name: 'Shields',
         date_of_birth: '1988-04-30',
         email_address: 'michaeltshields@gmail.com',
-        hashed_password: '',
+        hashed_password: 'fuckmylifetoo',
         artist_name: 'White Mystery',
         location: 'Boulder',
         avatar: '',
@@ -41,5 +41,9 @@ exports.seed = function(knex, Promise) {
       }
       ])
     ])
+    .then(function() {
+        // Moves id column (PK) auto-incrementer to correct value after inserts
+        return knex.raw("SELECT setval('users_id_seq', (SELECT MAX(id) FROM users))")
+      })
   })
 }

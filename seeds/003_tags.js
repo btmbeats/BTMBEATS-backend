@@ -32,5 +32,9 @@ exports.seed = function(knex, Promise) {
       }
       ])
     ])
+    .then(function() {
+        // Moves id column (PK) auto-incrementer to correct value after inserts
+        return knex.raw("SELECT setval('tags_id_seq', (SELECT MAX(id) FROM tags))")
+      })
   })
 }
