@@ -17,15 +17,13 @@ const checkForUser = (req, res, next) => {
 }
 
 const checkForExisitingEmail = (req, res, next) => {
-  const { email_address } = req.body
-  knex('users')
-    .where('email_address', email_address)
-    .then(user => {
-      if (user.length === 1) {
-        res.status(400).send('Email address already registered')
-      }
-      else next()
-    })
+  const {email_address} = req.body
+  knex('users').where('email_address', email_address).then(user => {
+    if (user.length === 1) {
+      res.status(400).send('Email address already registered')
+    } else
+      next()
+  })
 }
 
 const getUsers = (req, res, next) => {
@@ -87,10 +85,40 @@ const postUser = (req, res, next) => {
       res.status(200).send(user)
     }).catch(err => {
       next(err)
-})})}
+    })
+  })
+}
+
+const updateUser = (req, res, next) => {
+  const {id} = req.params
+  const {
+    first_name,
+    last_name,
+    email_address,
+    password,
+    avatar,
+    bio
+  } = req.body
+  knex('users').where('id', id).update({first_name, last_name, email_address, avatar, bio}).returning(['first_name', 'last_name', 'email_address']).then(user => {
+    res.status(200).send(user[0])
+  }).catch(err => {
+    next(err)
+  })
+}
+
+const deleteUser = (req, res, next) => {
+  const {id} = req.params
+  knex('users').where('id', id).del().returning(['first_name', 'last_name', 'email_address']).then(user => {
+    res.status(200).send(user[0])
+  }).catch(err => {
+    next(err)
+  })
+}
 
 router.get('/', getUsers)
 router.get('/:id', checkForUser, getUsers)
 router.post('/', checkForExisitingEmail, postUser)
+router.patch('/:id', checkForUser, updateUser)
+router.delete('/:id', checkForUser, deleteUser)
 
 module.exports = router
