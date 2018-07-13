@@ -1,6 +1,9 @@
-const express = require('express')
-const router = express.Router()
+var express = require('express')
+var router = express.Router()
 const knex = require('../knex')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+
 // READ ALL records for this table
 router.get('/', (req, res, next) => {
   knex('users')
@@ -34,4 +37,6 @@ router.put('/:id', (req, res, next) => {
 router.delete('/:id', (req, res, next) => {
   res.send('DELETED RECORD')
 })
-module.exports = router
+
+
+module.exports = router;
