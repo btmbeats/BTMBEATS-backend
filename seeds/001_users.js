@@ -26,7 +26,7 @@ exports.seed = function(knex, Promise) {
         id: 2,
         first_name:'Michael',
         last_name: 'Shields',
-        date_of_birth: '1988-4-30',
+        date_of_birth: '1988-04-30',
         email_address: 'michaeltshields@gmail.com',
         hashed_password: '',
         artist_name: 'White Mystery',
