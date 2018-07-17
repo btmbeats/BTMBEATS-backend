@@ -20,13 +20,13 @@ const getTracks = (req, res, next) => {
   const {id} = req.params
 
   if (id) {
-    knex('tracks').where('id', id).select('id', 'title', 'cover', 'desc', 'duration', 'tempo', 'price').first().then(track => {
+    knex('tracks').where('id', id).select('id', 'title', 'cover', 'desc', 'track_url', 'duration', 'tempo', 'price').first().then(track => {
       res.status(200).send(track)
     }).catch(err => {
       next(err)
     })
   } else {
-    knex('tracks').select('id', 'title', 'cover', 'desc', 'duration', 'tempo', 'price').then(tracks => {
+    knex('tracks').select('id', 'title', 'cover', 'desc', 'track_url', 'duration', 'tempo', 'price').then(tracks => {
       res.status(200).send(tracks)
     }).catch(err => {
       next(err)
@@ -41,6 +41,7 @@ const postTrack = (req, res, next) => {
     title,
     cover,
     desc,
+    track_url,
     duration,
     tempo,
     price
@@ -51,6 +52,7 @@ const postTrack = (req, res, next) => {
       'title': title,
       'cover': cover,
       'desc': desc,
+      'track_url': track_url,
       'duration': duration,
       'tempo': tempo,
       'price': price
@@ -60,6 +62,7 @@ const postTrack = (req, res, next) => {
       'title',
       'cover',
       'desc',
+      'track_url',
       'duration',
       'tempo',
       'price'
@@ -77,11 +80,12 @@ const updateTrack = (req, res, next) => {
     title,
     cover,
     desc,
+    track_url,
     duration,
     tempo,
     price
   } = req.body
-  knex('tracks').where('id', id).update({title, cover, desc, price}).returning(['title', 'cover', 'desc', 'price']).then(track => {
+  knex('tracks').where('id', id).update({title, cover, desc, price}).returning(['title', 'cover', 'desc', 'track_url', 'price']).then(track => {
     res.status(200).send(track[0])
   }).catch(err => {
     next(err)
@@ -90,7 +94,7 @@ const updateTrack = (req, res, next) => {
 
 const deleteTrack = (req, res, next) => {
   const {id} = req.params
-  knex('tracks').where('id', id).del().returning(['title', 'cover', 'desc', 'price']).then(track => {
+  knex('tracks').where('id', id).del().returning(['title', 'cover', 'desc', 'track_url', 'price']).then(track => {
     res.status(200).send(track[0])
   }).catch(err => {
     next(err)
