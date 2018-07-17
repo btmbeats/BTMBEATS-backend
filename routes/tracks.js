@@ -48,7 +48,7 @@ const postTrack = (req, res, next) => {
   } = req.body
   console.log('This track\'s title is: ', req.body)
     const newTrack = {
-      'user_id': user_id,
+      'user_id': 1, //replace with user_id (need token)
       'title': title,
       'cover': cover,
       'desc': desc,
