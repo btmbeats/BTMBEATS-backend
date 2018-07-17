@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
     table.string('title', 255).notNullable().defaultTo('')
     table.string('cover', 255).defaultTo('')
     table.string('desc', 255).defaultTo('')
+    table.string('track_url', 255).notNullable().defaultTo('')
     table.integer('duration').notNullable().defaultTo(0)
     table.integer('tempo').notNullable().defaultTo(0)
     table.decimal('price').defaultTo(0.00)
