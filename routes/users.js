@@ -16,7 +16,7 @@ const checkForUser = (req, res, next) => {
   })
 }
 
-const checkForExisitingEmail = (req, res, next) => {
+const checkForExistingEmail = (req, res, next) => {
   const {email_address} = req.body
   knex('users').where('email_address', email_address).then(user => {
     if (user.length === 1) {
@@ -31,6 +31,7 @@ const getUsers = (req, res, next) => {
 
   if (id) {
     knex('users').where('id', id).select('id', 'first_name', 'last_name', 'email_address', 'avatar', 'bio').first().then(user => {
+      console.log(user);
       res.status(200).send(user)
     }).catch(err => {
       next(err)
@@ -54,7 +55,7 @@ const postUser = (req, res, next) => {
     avatar,
     bio
   } = req.body
-  console.log('Hello, my name is: ', req.body)
+  // console.log('Hello, my name is: ', req.body)
   bcrypt.hash(password, 10, (err, hashed_password) => {
     const newUser = {
       'first_name': first_name,
@@ -73,7 +74,7 @@ const postUser = (req, res, next) => {
       'avatar',
       'bio'
     ]).then(user => {
-      console.log('Hello, my username is: ', user)
+      // console.log('Hello, my username is: ', user)
       const token = jwt.sign({
         'id': user[0].id,
         'first_name': user[0].first_name,
@@ -81,6 +82,8 @@ const postUser = (req, res, next) => {
         'avatar': user[0].avatar,
         'bio': user[0].bio
       }, process.env.JWT_KEY)
+      // console.log("token is, ", token);
+      // res.send({token})
       res.cookie(`token=${token}; Path=\/;.HttpOnly`)
       res.status(200).send(user)
     }).catch(err => {
@@ -117,7 +120,7 @@ const deleteUser = (req, res, next) => {
 
 router.get('/', getUsers)
 router.get('/:id', checkForUser, getUsers)
-router.post('/', checkForExisitingEmail, postUser)
+router.post('/', checkForExistingEmail, postUser)
 router.patch('/:id', checkForUser, updateUser)
 router.delete('/:id', checkForUser, deleteUser)
 
