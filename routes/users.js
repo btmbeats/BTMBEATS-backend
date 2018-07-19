@@ -83,9 +83,8 @@ const postUser = (req, res, next) => {
         'bio': user[0].bio
       }, process.env.JWT_KEY)
       // console.log("token is, ", token);
-      // res.send({token})
-      res.cookie(`token=${token}; Path=\/;.HttpOnly`)
-      res.status(200).send(user)
+      res.send({token})
+      // res.cookie(`token=${token}; Path=\/;.HttpOnly`)
     }).catch(err => {
       next(err)
     })
