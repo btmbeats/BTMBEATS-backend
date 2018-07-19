@@ -16,6 +16,8 @@ const checkForTracks = (req, res, next) => {
   })
 }
 
+//is authenticated function 
+
 const getTracks = (req, res, next) => {
   const {id} = req.params
 
