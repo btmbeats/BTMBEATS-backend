@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
     table.string('cover', 255).defaultTo('')
     table.string('desc', 255).defaultTo('')
     table.string('track_url', 255).notNullable().defaultTo('')
-    table.integer('duration').notNullable().defaultTo(0)
+    table.string('duration').notNullable().defaultTo('')
     table.integer('tempo').notNullable().defaultTo(0)
     table.decimal('price').defaultTo(0.00)
     // table.timestamps(true, true)
