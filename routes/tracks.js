@@ -26,7 +26,7 @@ const getTracks = (req, res, next) => {
       next(err)
     })
   } else {
-    knex('tracks').select('id', 'title', 'cover', 'desc', 'track_url', 'duration', 'tempo', 'price').then(tracks => {
+    knex('tracks').select('id', 'title', 'cover', 'desc', 'track_url', 'duration', 'tempo', 'price').orderBy('created_at', 'desc').then(tracks => {
       res.status(200).send(tracks)
     }).catch(err => {
       next(err)
