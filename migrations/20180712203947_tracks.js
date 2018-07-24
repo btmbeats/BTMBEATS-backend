@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
     table.string('track_url', 255).notNullable().defaultTo('')
     table.string('duration').notNullable().defaultTo('')
     table.integer('tempo').notNullable().defaultTo(0)
-    table.decimal('price').defaultTo(0.00)
+    table.string('price').defaultTo(0.00)
     // table.timestamps(true, true)
     table.dateTime('created_at').notNullable().defaultTo(knex.raw('now()'))
     table.dateTime('updated_at').notNullable().defaultTo(knex.raw('now()'))
