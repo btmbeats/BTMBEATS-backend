@@ -7,10 +7,10 @@ exports.seed = function(knex, Promise) {
       knex('tracks').insert([{
         id: 1,
         user_id: 2,
-        title: 'Durty Knees',
-        cover: '',
-      	desc: 'Clean yourself up with this fresh beat',
-        track_url: 'https://soundcloud.com/White_Mystery/Durty_Knees',
+        title: '808 Trap Bass and Snare',
+        cover: 'http://bridgingthemusic.com/wp-content/uploads/2014/08/btm-white.png',
+      	desc: 'Trapped in the haus, Gucci!',
+        track_url: 'https://soundcloud.com/White_Mystery/808TrapBassSnare',
         duration: '3:45',
         tempo: 165,
         price: 0.00,
@@ -19,13 +19,13 @@ exports.seed = function(knex, Promise) {
       },{
         id: 2,
         user_id: 1,
-        title: 'Red Bulls on Parade',
-        cover: '',
-      	desc: 'this track gives you wings',
-        track_url: 'https://soundcloud.com/Burnsidion/Red_Bulls_on_Parade',
+        title: 'Metal Rhythm Backing',
+        cover: 'http://bridgingthemusic.com/wp-content/uploads/2014/08/btm-white.png',
+      	desc: 'For 7 string guitars in dmin',
+        track_url: 'https://soundcloud.com/Burnsidion/MetalRhythmBacking',
         duration: '2:36',
         tempo: 120,
-        price: 9.99,
+        price: 3.99,
         created_at: '2018-02-05T14:26:16.000Z',
         updated_at: '2018-02-05T14:26:16.000Z'
       }
