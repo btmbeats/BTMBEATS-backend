@@ -26,7 +26,9 @@ const getTracks = (req, res, next) => {
       next(err)
     })
   } else {
-    knex('tracks').select('id', 'title', 'cover', 'desc', 'track_url', 'duration', 'tempo', 'price').orderBy('created_at', 'desc').then(tracks => {
+    knex('tracks').select('tracks.id', 'tracks.title', 'tracks.cover', 'tracks.desc', 'tracks.track_url', 'tracks.duration', 'tracks.tempo', 'tracks.price', 'users.artist_name')
+    .join('users', 'users.id' , 'tracks.user_id')
+    .orderBy('tracks.created_at', 'desc').then(tracks => {
       res.status(200).send(tracks)
     }).catch(err => {
       next(err)
